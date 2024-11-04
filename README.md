@@ -1,7 +1,7 @@
 <a id="readme-top"></a>
 
 
-[![LinkedIn][linkedin-shield]][linkedin-url]
+[![LinkedIn][linkedin-shield]][https://www.linkedin.com/in/given-leope-b8a842336/]
 
 
 
@@ -92,8 +92,9 @@ The system provides different interfaces for various user roles:
 1. **Admin Dashboard**
    - Manage staff accounts
    - Configure ward settings
-   ![Admin dashboard](https://github.com/user-attachments/assets/081ff15b-3aa1-4004-8492-367c1af608d4)
-.png)
+    ![20241104_163348](https://github.com/user-attachments/assets/f3844ad9-6b07-4e09-bd7f-7873a1d72b75)
+    ![20241104_163447](https://github.com/user-attachments/assets/bcf7e9cf-6e87-4bc0-a938-cb5323b2b251)
+
 
 2. **Ward Adin**
    - View ward occupancy
@@ -102,9 +103,12 @@ The system provides different interfaces for various user roles:
    - Update patient records
    - Generate reports
    - Assign Patient to a doctor
-  ![Assign doctor](https://github.com/user-attachments/assets/1e3f9ce2-a0a6-4310-b594-cce76faadb1d)
-  ![report](https://github.com/user-attachments/assets/75b55180-aa87-4ab8-b7ce-0e8cf808559f)
-
+    ![Assign room and bed](https://github.com/user-attachments/assets/c1f99d28-6d58-4b13-80e8-a0a2c267172e)
+    ![Assign Doctor to patient](https://github.com/user-attachments/assets/d1df3733-14f5-4ae1-b932-4cbae1a3b4a6)
+    ![Movements](https://github.com/user-attachments/assets/0a733096-f458-498b-b042-cadb6c986fb5)
+    ![report](https://github.com/user-attachments/assets/829b435d-5b77-4acf-ac7b-05ea2ca2fe59)
+    
+  
 
 
 3.**Doctor**
