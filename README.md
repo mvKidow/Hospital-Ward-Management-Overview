@@ -92,13 +92,20 @@ The system provides different interfaces for various user roles:
 1. **Admin Dashboard**
    - Manage staff accounts
    - Configure ward settings
-   - Generate reports
+   ![Admin dashboard](https://github.com/user-attachments/assets/081ff15b-3aa1-4004-8492-367c1af608d4)
+.png)
 
 2. **Ward Adin**
    - View ward occupancy
    - Assign patients rooms and beds
    - Manage patient admissions/discharges
    - Update patient records
+   - Generate reports
+   - Assign Patient to a doctor
+  ![Assign doctor](https://github.com/user-attachments/assets/1e3f9ce2-a0a6-4310-b594-cce76faadb1d)
+  ![report](https://github.com/user-attachments/assets/75b55180-aa87-4ab8-b7ce-0e8cf808559f)
+
+
 
 3.**Doctor**
    - Create prescriptions
