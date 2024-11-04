@@ -1,11 +1,5 @@
 <a id="readme-top"></a>
 
-
-[![LinkedIn][linkedin-shield]][https://www.linkedin.com/in/given-leope-b8a842336/]
-
-
-
-
 <br />
 <div align="center">
   <h3 align="center">Hospital Ward Management System</h3>
