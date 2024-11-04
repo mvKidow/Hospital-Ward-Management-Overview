@@ -1,0 +1,66 @@
+﻿@model IEnumerable<ConsumableViewModel>
+@{
+    ViewData["Title"] = "All Consumables";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container my-4">
+    <h3 class="text-center mb-4">Consumable List</h3>
+
+    <div class="d-flex justify-content-between mb-3">
+        <a asp-action="AddNewConsumable" class="btn btn-success">Add New Consumable</a>
+        <form method="get" asp-action="ViewAllConsumables">
+            <div class="input-group">
+                <input type="text" class="form-control" id="searchTerm" name="getConsumable" placeholder="Search by name..." />
+                <button class="btn btn-outline-secondary" type="submit">
+                    <i class="bi bi-search"></i> Search
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card p-3">
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Quantity Available</th>
+                    <th>Supplier</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ConsumableName</td>
+                        <td>@item.ConsumableType</td>
+                        <td>@item.QuantityAvailable</td>
+                        <td>@item.SupplierName</td>
+                        <td>
+                            <a asp-action="EditConsumable" asp-controller="Admin" asp-route-id="@item.ConsumableId" class="btn btn-primary btn-sm">Edit</a>
+                            <form asp-action="DeleteConsumable" asp-route-id="@item.ConsumableId" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this consumable?');">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-between">
+            <small>Page @ViewBag.Page of @ViewBag.TotalPages (@ViewBag.TotalItems items)</small>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination pagination-sm mb-0">
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.Page ? "active" : "")">
+                            <a class="page-link" asp-action="ViewAllConsumables" asp-route-page="@i" asp-route-getConsumable="@Context.Request.Query["getConsumable"]">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

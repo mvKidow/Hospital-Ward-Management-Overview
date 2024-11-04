@@ -1,0 +1,17 @@
+﻿@model AppointmentViewModel
+@{
+    ViewData["Title"] = "Details Schedule";
+    Layout = "~/Views/Shared/_DoctorLayout.cshtml";
+}
+<h2>Schedule Details</h2>
+
+<div>
+    <h3>Patient: @Model.PatientFileId</h3>
+    <p>Date: @Model.Date.ToString("MM/dd/yyyy")</p>
+    <p>Time: @Model.Time</p>
+    <p>Status: @Model.Status</p>
+    <p>Reason: @Model.Reason</p>
+</div>
+
+<a href="@Url.Action("Schedules")" class="btn btn-secondary">Back to List</a>
+

@@ -1,0 +1,16 @@
+﻿@* @model Views_Doctor_Prescription *@
+@* Not showing prescription *@
+@model CareConnect.Models.Prescription
+@{
+    ViewData["Title"] = "Detail Prescription";
+    Layout = "~/Views/Shared/_DoctorLayout.cshtml";
+}
+<h2>Prescription Details</h2>
+
+<div>
+    <h3>Date: @Model.Date.ToString("MM/dd/yyyy")</h3>
+    <p>Dosage: @Model.Dosage</p>
+</div>
+
+<a href="@Url.Action("Prescriptions")" class="btn btn-secondary">Back to List</a>
+

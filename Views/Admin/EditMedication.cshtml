@@ -1,0 +1,24 @@
+﻿@model MedicationViewModel
+@{
+    ViewData["Title"] = "Edit Medication";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container my-4">
+    <h3>Edit Medication</h3>
+    <form asp-action="UpdateMedication" method="post">
+        <input type="hidden" asp-for="MedicationId" />
+        <div class="mb-3">
+            <label asp-for="MedicationName" class="form-label">Medication Name</label>
+            <input asp-for="MedicationName" class="form-control" />
+            <span asp-validation-for="MedicationName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label">Description</label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a asp-action="ViewMedication" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

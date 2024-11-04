@@ -1,0 +1,411 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CareConnect</title>
+   <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> 
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Connect.styles.css" asp-append-version="true" />
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <style>
+        .contact-section {
+            background-color: #007BFF; /* Blue background color */
+            color: white; /* White text color for contrast */
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+            .contact-section .form-label,
+            .contact-section .input-group-text,
+            .contact-section .btn {
+                color: black; /* Black color for labels and buttons */
+            }
+    </style>
+   
+</head>
+<body>
+
+      @if (ViewData["HideLayout"] == null || !(bool)ViewData["HideLayout"])
+
+    {
+
+        <div class="container my-5">
+            <!-- Header and Navigation -->
+            <header class="text-center header-social-icon text-lg-start  bg-primary text-white">
+                <div class="container">
+
+                    <section class="d-flex justify-content-center justify-content-lg-between p-2 border-bottom">
+                        <div class="me-5 d-lg-block d-none">
+                            <span class="mx-2"></span><i class="fa fa-phone mx-1"></i>+01 434 567 88
+                            <span><i class="fa fa-calendar mx-1"></i> Mon-Fri: 07:00-16:00</span>
+                        </div>
+                      
+                    </section>
+                </div>
+            </header>
+
+            <!-- Navigation -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container">
+                    <a class="navbar-brand fw-bold" href="#"><span>Ward Management System</span></a>
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav m-auto mb-2 mb-lg-0">
+                            <li class="nav-item mx-3">
+                                <a class="nav-link text-dark" href="#about">About</a>
+                            </li>
+                            <li class="nav-item mx-3">
+                                <a class="nav-link text-dark" href="#services">Services</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="#gallery">Gallery</a>
+                            </li>
+                            <li class="nav-item mx-3">
+                                <a class="nav-link text-dark" href="#contact">Contact Us</a>
+                            </li>
+                        </ul>
+
+                        <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+      
+        <!--Carousel Start-->
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="h-100 w-100"
+                         src="~/images/big patients room 3d model 3d model.jpeg"
+                    class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-md-block">
+                        <h2><span>Care</span>Connect</h2>
+                        <p>Your health is our Priority</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img class="h-100 w-100"
+                         src="~/images/Surgeons performing operation.jpg"
+                    class="d-block w-100" alt="...">
+                    <div class="carousel-caption  d-md-block">
+                        <h2><span>Care</span>Connect</h2>
+                        <p>Your health is our Priority</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img class="h-100 w-100" src="~/images/𝑻𝒉𝒆 𝑩𝒐𝒚𝒔 𝑰𝒏𝒇𝒂𝒕𝒖𝒂𝒕𝒊𝒐𝒏                      ┊ᴷᵀᴴ ˣ ᴿᵉᵃᵈᵉʳ ˣ ᴶᴶᵏ┊ - ♡⃝   1.jpg" class="d-block w-80" alt="..." >
+                    
+                    <div class="carousel-caption  d-md-block">
+                        <h2><span>Care</span>Connect</h2>
+                        <p>Your health is our Priority</p>
+
+
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <!--Carousel End-->
+
+        <main id="about">
+            <div class="about mt-5 mb-5">
+                <div class="container">
+                    <h2 class="h2-responsive fw-bold text-center my-2">
+                        About
+                    </h2>
+                    <p class="text-center w-responsive mx-auto mb-1">
+                        At CareConnect, we're dedicated to providing exceptional healthcare services with a focus on patient comfort and advanced medical care.
+                        Our ward management system represents the cornerstone of our commitment to efficient,
+                        patient-centered healthcare delivery.
+                    </p>
+
+                    <div class="row pt-5">
+                        <div class="col-md-6 align-items-stretch">
+                            <img class="img-fluid"
+                            src="~/images/Trauma Room.jpg"
+                            alt="">
+                        </div>
+                        <div class="col-md-6 pt-4">
+                            <h1 class="h2-responsive section-heading fw-bold text-start">Our Ward Management</h1>
+                            <p class="lh-base">
+                                Our state-of-the-art ward management system integrates cutting-edge technology with compassionate care. We prioritize patient comfort while maintaining the highest standards of medical excellence, ensuring each patient receives personalized attention and treatment.
+                            </p>
+                            <p>
+                                With dedicated medical professionals and support staff available 24/7, we ensure continuous monitoring and care for all our patients. Our facility features modern equipment, comfortable accommodations, and a healing environment designed to promote quick recovery.
+                            </p>
+                            <p class="lh-base">
+                                We take pride in our efficient operations, maintaining optimal nurse-to-patient ratios, and implementing advanced patient monitoring systems to provide the best possible care experience.
+                            </p>
+                            <a href="" class="btn btn-primary px-2 pl-2 mt-3">Read More</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!--About Ends-->
+
+
+        <!--Starts-->
+        <main id="services" class="course">
+            <div class="container">
+                <h2 class="h2-responsive fw-bold text-center my-2">
+                    Service
+                </h2>
+                <p class="text-center w-responsive mx-auto mb-1">
+                    Treatment offered
+                </p>
+
+                <div class="row mt-5">
+                    <div class="col-md-4">
+                        <div class="card box">
+                            <img src="~/images/Medical Team Performing Surgical Operation in Modern Operating Room.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Chemo Therapy</h5>
+                                <p class="card-text">
+                                    Check and treat lower level of cancer,ans supply medication to lower the spread
+                                </p>
+                                <a href="#" class="btn btn-primary">Read More</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card box">
+                            <img src="~/images/𝑻𝒉𝒆 𝑩𝒐𝒚𝒔 𝑰𝒏𝒇𝒂𝒕𝒖𝒂𝒕𝒊𝒐𝒏                      ┊ᴷᵀᴴ ˣ ᴿᵉᵃᵈᵉʳ ˣ ᴶᴶᵏ┊ - ♡⃝   1.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Labour Ward</h5>
+                                <p class="card-text">Provide baby Deliver and supply proper medication</p>
+                                <a href="#" class="btn btn-primary">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card box">
+                                <img src="~/images/Trauma Room.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Medi tech</h5>
+                                <p class="card-text">medication tech</p>
+                                <a href="#" class="btn btn-primary">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+        <!-- ends-->
+        <!--Gallary starts-->
+        <main id="gallery" class="mt-5">
+            <div class="container">
+                <h2 class="h2-responsive fw-bold text-center my-2">
+                    Gallery
+                </h2>
+                <p class="text-center w-responsive mx-auto mb-1">
+                    Gallery
+                </p>
+                <!-- Gallery -->
+                <div class="row pt-5">
+                    <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+                        <img src="images/Some COVID patients treated on ventilators suffer PTSD-like issues.jpg"
+                        class="w-100 shadow-1-strong rounded mb-4" alt="Boat on Calm Water" />
+
+                        <img src="~/images/Trusted Hospital For Laparoscopic Surgery In India.jpg"
+                        class="w-100 shadow-1-strong rounded mb-4" alt="Wintry Mountain Landscape" />
+                    </div>
+
+                    <div class="col-lg-4 mb-4 mb-lg-0">
+                        <img src="~/images/Virginia Tech Carillion, VA, USA.jpg"
+                        class="w-100 shadow-1-strong rounded mb-4" alt="Mountains in the Clouds" />
+
+                        <img src="~/images/Hospitals - Well Blog - The New York Times.jpg"
+                        class="w-100 shadow-1-strong rounded mb-4" alt="Boat on Calm Water" />
+                    </div>
+
+                    <div class="col-lg-4 mb-4 mb-lg-0">
+                        <img src="~/images/Trusted Hospital For Laparoscopic Surgery In India.jpg"
+                        class="w-100 shadow-1-strong rounded mb-4" alt="Waves at Sea" />
+
+                        <img src="~/images/Luke Bryan Brings Smiles to Faces During Hospital Visit [Watch] (1).jpg"
+                        class="w-100 shadow-1-strong rounded mb-4" alt="Yosemite National Park" />
+                    </div>
+                </div>
+                <!-- Gallery -->
+            </div>
+        </main>
+        <!--Gallary ends-->
+        <!--Contact start-->
+
+        <main id="contact" class="mt-5">
+            <div class="container">
+
+                <h2 class="h2-responsive fw-bold text-center my-2">
+                    Contact Us
+                </h2>
+
+                <section class="mb-4 contact-section">
+
+                    <div class="row mt-5">
+
+                        <div class="col-md-6-mb-md-0-mb-6">
+
+                            <form id="contact-form" name="contact-form" action="mail.php" method="post">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <label for="fullname" class="form-label">
+                                            Full Name <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="fullname" name="fullname" value=""
+                                        required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label">
+                                            Email <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                                                    <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
+                                                </svg>
+                                            </span>
+                                            <input type="email" class="form-control" id="email" name="email" value=""
+                                            required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="phone" class="form-label">Phone Number</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
+                                                    <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
+                                                </svg>
+                                            </span>
+                                            <input type="tel" class="form-control" id="phone" name="phone" value="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="message" class="form-label">
+                                            Message <span class="text-danger">*</span>
+                                        </label>
+                                        <textarea class="form-control" id="message" name="message" rows="6"
+                                        required></textarea>
+                                    </div>
+
+                                    <div class="col-md-6">
+
+                                        <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+
+                                    </div>
+                                </div>
+                            </form>
+
+
+                        </div>
+
+                    </div>
+                </section>
+          
+            </div>
+        </main>
+    
+    }
+    <!--Contact ends-->
+    <div>
+        @RenderBody()
+    </div>
+    <!-- Footer -->
+    <footer class="text-center text-lg-start bg-light text-muted">
+        <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+            <div class="me-5 d-lg-block d-none">
+                <span class="mx-2"></span><i class="fa fa-phone mx-1"></i>+01 434 567 88
+                <span><i class="fa fa-calendar mx-1"></i> Mon-Fri: 07:00-16:00</span>
+            </div>
+            <div>
+                <a href="" class="me-4 text-reset">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="" class="me-4 text-reset">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="" class="me-4 text-reset">
+                    <i class="fab fa-google"></i>
+                </a>
+                <a href="" class="me-4 text-reset">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="" class="me-4 text-reset">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="" class="me-4 text-reset">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+           
+        </section>
+        
+        <section class="text-center">
+            <p>&copy; 2024 CareConnect. All rights reserved.</p>
+        </section>
+     
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js" ></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script asp-append-version="true" document.querySelectorAll('a[href^="#" ]').forEach(anchor=>
+        {
+                   anchor.addEventListener('click', function (e) {
+                       e.preventDefault();
+                       const targetId = this.getAttribute('href');
+                       const targetElement = document.querySelector(targetId);
+
+                       if (targetElement) {
+                           targetElement.scrollIntoView({
+                               behavior: 'smooth',
+                               block: 'start'
+                           });
+                       }
+                   });
+               });
+    </script>
+</body>
+</html>

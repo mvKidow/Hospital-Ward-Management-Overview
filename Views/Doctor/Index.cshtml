@@ -1,0 +1,265 @@
+﻿@model DoctorDashboardViewModel
+@{
+    Layout = "~/Views/Shared/_DoctorLayout.cshtml";
+    ViewData["Title"] = "Doctor Dashboard";
+}
+
+<div class="container-fluid">
+    <!-- Content Row -->
+    <div class="row">
+        <!-- Upcoming Appointments -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-start border-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row g-0 align-items-center">
+                        <div class="col me-2">
+                            <div class="text-xs fw-bold text-primary text-uppercase mb-1">
+                                Upcoming Appointments
+                            </div>
+                            @if (Model.UpcomingAppointments != null && Model.UpcomingAppointments.Any())
+                            {
+                                <ul class="list-group">
+                                    @foreach (var appointment in Model.UpcomingAppointments)
+                                    {
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            @appointment.Date.ToString("yyyy-MM-dd") - @appointment.Name
+                                            <span class="badge bg-primary">@appointment.Status</span>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <div class="h5 mb-0 fw-bold text-gray-800">No upcoming appointments</div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Appointments Today -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-start border-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row g-0 align-items-center">
+                        <div class="col me-2">
+                            <div class="text-xs fw-bold text-success text-uppercase mb-1">
+                                Appointments Today
+                            </div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">@Model.AppointmentsToday</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task Management -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-start border-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row g-0 align-items-center">
+                        <div class="col me-2">
+                            <div class="text-xs fw-bold text-warning text-uppercase mb-1">
+                                Task Management
+                            </div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">You have @Model.PendingTasks Pending Tasks</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Patient Overall -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-start border-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row g-0 align-items-center">
+                        <div class="col me-2">
+                            <div class="text-xs fw-bold text-info text-uppercase mb-1">
+                                Patient Overall
+                            </div>
+                            @if (Model.TotalPatients > 0)
+                            {
+                                <p>Total Patients: @Model.TotalPatients</p>
+                            }
+                            else
+                            {
+                                <p>No patients found.</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Row for Charts -->
+    <div class="row">
+        <!-- Task Management Overview Chart -->
+        <div class="col-xl-6 col-md-12 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Task Management Overview</h5>
+                    <canvas id="taskChart"></canvas> <!-- Canvas for Chart.js -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Pending Tasks -->
+        <div class="col-xl-4 col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 fw-bold text-primary">Pending Tasks</h6>
+                </div>
+                <div class="card-body">
+                    @if (Model.PendingInformation != null && Model.PendingInformation.Any())
+                    {
+                        <p>You have @Model.PendingTasks pending tasks:</p>
+                        <ul>
+                            @foreach (var task in Model.PendingInformation)
+                            {
+                                <li>@task.TasksDescription</li> <!-- Display the description of each pending task -->
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p>No pending tasks.</p>
+                    }
+                </div>
+            </div>
+        </div>
+        <!-- Patients Overview Bar Chart -->
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 fw-bold text-primary">Patients Overview</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-bar">
+                        <canvas id="patientsOverviewChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- JavaScript for Patients Overview Chart -->
+        <script>
+            // Get the canvas element
+            var ctxPatients = document.getElementById('patientsOverviewChart').getContext('2d');
+
+            // Parse the data from ViewBag
+            var patientLabels = @Html.Raw(Json.Serialize(ViewBag.PatientLabels));
+            var patientCounts = @Html.Raw(Json.Serialize(ViewBag.PatientCounts));
+            var patientConditions = @Html.Raw(Json.Serialize(ViewBag.PatientConditions));
+
+            // Create the chart
+            var patientsOverviewChart = new Chart(ctxPatients, {
+                type: 'pie',
+                data: {
+                    labels: patientLabels,
+                    datasets: [{
+                        data: patientCounts,
+                        backgroundColor: [
+                            '#4e73df', '#36b9cc', '#f6c23e', '#e74a3b', '#1cc88a',
+                            '#2e59d9', '#f8f9fc', '#858796', '#5a5c69', '#1e7e34'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    var patientName = context.label || '';
+                                    var Name = patientConditions[context.dataIndex];
+                                    return `${patientName}: ${Name}`;
+                                }
+                            }
+                        },
+                        legend: {
+                            display: true,
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+        </script>
+
+
+<!-- Chart.js script for Task Management -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var pendingTasks = @Model.PendingTasks;
+    var successTasks = @Model.SucessTasks;
+
+    var ctx = document.getElementById('taskChart').getContext('2d');
+    var taskChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Pending Tasks', 'Successful Tasks'],
+            datasets: [{
+                data: [pendingTasks, successTasks], // Pending and Success tasks from Model
+                backgroundColor: ['#f39c12', '#2ecc71'], // Colors for pending and success
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                },
+            }
+        }
+    });
+
+    // Chart.js script for Patients Overview
+    var patientLabels = @Html.Raw(Json.Serialize(ViewBag.PatientLabels)); // Should be an array of strings
+    var patientCounts = @Html.Raw(Json.Serialize(ViewBag.PatientCounts)); // Should be an array of numbers
+
+    var ctxPatients = document.getElementById('patientsOverviewChart').getContext('2d');
+    var patientsOverviewChart = new Chart(ctxPatients, {
+        type: 'pie',
+        data: {
+            labels: patientLabels,
+            datasets: [{
+                label: 'Number of Patients',
+                data: patientCounts,
+                backgroundColor: '#4e73df',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Chart.js script for Patient Condition Ratio
+    var ctxPie = document.getElementById('patientConditionRatioChart').getContext('2d');
+    var patientConditionRatioChart = new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+            labels: ['Conditions', 'Appointments Today'],
+            datasets: [{
+                data: [@Model.ConditionTrends, @Model.AppointmentsToday],
+                backgroundColor: ['#4e73df', '#36b9cc'],
+            }]
+        },
+        options: {
+            maintainAspectRatio: false
+        }
+    });
+</script>
+
+

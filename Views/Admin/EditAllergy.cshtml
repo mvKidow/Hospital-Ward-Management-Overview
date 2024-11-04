@@ -1,0 +1,24 @@
+﻿@model AllergyViewModel
+@{
+    ViewData["Title"] = "Edit Allergy";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container my-4">
+    <h3>Edit Allergy</h3>
+    <form asp-action="UpdateAllergy" method="post">
+        <input type="hidden" asp-for="AllergyId" />
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Allergy Name</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Severity" class="form-label">Severity</label>
+            <input asp-for="Severity" class="form-control" />
+            <span asp-validation-for="Severity" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a asp-action="ViewAllergies" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

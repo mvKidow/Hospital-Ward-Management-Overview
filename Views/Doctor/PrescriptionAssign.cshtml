@@ -1,0 +1,102 @@
+﻿@model PrescriptionViewModel
+@{
+    Layout = "~/Views/Shared/_DoctorLayout.cshtml";
+    ViewData["Title"] = "Assign Prescription";
+}
+<div class="container-fluid">
+    <h2>Assign Prescription</h2>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var modelState in ViewData.ModelState.Values)
+            {
+                foreach (var error in modelState.Errors)
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            }
+        </ul>
+    </div>
+}
+
+<div class="card shadow-lg mb-4">
+    <div class="card-body">
+        <form asp-action="SearchPatientFilesAssign" method="post">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="patientIdInput" class="form-label">Enter Patient File ID</label>
+                    <div class="input-group">
+                        <input type="number" asp-for="@Model.PatientFileId" id="patientIdInput" name="patientFileId" class="form-control" required />
+                        <button type="submit" class="btn btn-secondary">Search Patient</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<form asp-action="PrescriptionAssign" method="post">
+
+    <div class="form-group">
+        <label for="Name">Patient Name</label>
+        <input type="text" asp-for="Name" class="form-control" readonly />
+        <input type="hidden" asp-for="PatientFileId" class="form-control" readonly />
+    </div>
+    <div class="form-group">
+        <label for="Date">Date</label>
+        <input type="date" asp-for="Date" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Dosage">Dosage</label>
+        <input type="text" asp-for="Dosage" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Status">Medication<span class="text-danger">*</span></label>
+        <input asp-for="Medication" class="form-control" required />
+        <span asp-validation-for="Medication" class="text-danger"></span>
+        <div class="form-group">
+            <label for="UserId"> UserId</label>
+            <input type="number" asp-for="UserId" class="form-control" />
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary btn-lg">Assign Prescription</button>
+        </div>
+    </div>
+    </div>
+</form>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Clear form when searching for a new patient
+            $('#searchForm').on('submit', function () {
+                $('#prescriptionForm')[0].reset();
+            });
+        });
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+
+
+

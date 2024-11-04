@@ -1,0 +1,231 @@
+﻿@model DischargeReportViewModel
+@{
+    ViewData["Title"] = "view Discharge Report";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Discharge Report</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style type="text/css">
+        /* Print styles */
+        @@media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                padding: 20px;
+            }
+            .container {
+                width: 100%;
+                max-width: none;
+            }
+        }
+
+        /* Regular styles */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .report-header {
+            border-bottom: 2px solid #333;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+        }
+
+        .hospital-logo {
+            max-width: 150px;
+            height: auto;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+
+        .section-title {
+            background-color: #f8f9fa;
+            padding: 5px 10px;
+            margin-bottom: 10px;
+        }
+
+        .signature-line {
+            border-top: 1px solid #333;
+            margin-top: 30px;
+            padding-top: 5px;
+            width: 200px;
+        }
+
+        table.details-table td {
+            padding: 5px 10px;
+        }
+
+        .bill-table th, 
+        .bill-table td {
+            padding: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .print-button {
+            margin: 20px 0;
+        }
+
+        /* Additional print optimizations */
+        @@media print {
+            .section {
+                break-inside: avoid;
+            }
+            
+            .signature-section {
+                page-break-inside: avoid;
+            }
+            
+            a {
+                text-decoration: none;
+            }
+            
+            .bill-table {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- Print Button -->
+        <div class="no-print print-button">
+            <button onclick="window.print()" class="btn btn-primary">
+                Print Report
+            </button>
+            <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
+        </div>
+
+        <!-- Rest of your view content remains the same -->
+        <!-- Report Header -->
+        <div class="report-header">
+            <div class="row">
+                <div class="col-3">
+                    <img src="~/images/LogoSortOf.webp" alt="Hospital Logo" class="hospital-logo" />
+                </div>
+                <div class="col-6 text-center">
+                    <h2>@Model.HospitalName</h2>
+                    <p>@Model.HospitalAddress</p>
+                    <p>Phone: @Model.HospitalPhone</p>
+                </div>
+                <div class="col-3 text-end">
+                    <p><strong>Report Date:</strong><br />@Model.FormattedDischargeDate</p>
+                    <p><strong>Report ID:</strong><br />@Model.ReportNumber</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Patient Information -->
+        <div class="section">
+            <h4 class="section-title">Patient Information</h4>
+            <div class="row">
+                <div class="col-6">
+                    <table class="details-table">
+                        <tr>
+                            <td><strong>Patient Name:</strong></td>
+                            <td>@Model.FullPatientName</td>
+                        </tr>
+                        <tr>
+                            <td><strong>File Number:</strong></td>
+                            <td>@Model.PatientFileId</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-6">
+                    <table class="details-table">
+                        <tr>
+                            <td><strong>Attending Doctor:</strong></td>
+                            <td>@Model.FullDoctorName</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Length of Stay:</strong></td>
+                            <td>@Model.LengthOfStay days</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Medical Information -->
+        <div class="section">
+            <h4 class="section-title">Medical Information</h4>
+            <div class="mb-3">
+                <h5>Discharge Summary</h5>
+                <p>@Model.DischargeSummary</p>
+            </div>
+            <div class="mb-3">
+                <h5>Treatment Provided</h5>
+                <p>@Model.TreatmentProvided</p>
+            </div>
+            <div class="mb-3">
+                <h5>Medication Prescribed</h5>
+                <p>@Model.MedicationPrescribed</p>
+            </div>
+            <div class="mb-3">
+                <h5>Vital Signs at Discharge</h5>
+                <p>@Model.VitalSignsAtDischarge</p>
+            </div>
+        </div>
+
+        <!-- Billing Information -->
+        <div class="section">
+            <h4 class="section-title">Billing Summary</h4>
+            <table class="table bill-table">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th class="text-end">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Doctor's Fee</td>
+                        <td class="text-end">@Model.DoctorFee.ToString("C2")</td>
+                    </tr>
+                    <tr>
+                        <td>Medication Charges</td>
+                        <td class="text-end">@Model.MedicationFee.ToString("C2")</td>
+                    </tr>
+                    <tr>
+                        <td>Room Charges</td>
+                        <td class="text-end">@Model.RoomFee.ToString("C2")</td>
+                    </tr>
+                    <tr>
+                        <td>Other Costs</td>
+                        <td class="text-end">@Model.OtherCosts.ToString("C2")</td>
+                    </tr>
+                   @*  <tr class="font-weight-bold">
+                        <th>Total Amount</th>
+                        <th class="text-end">@Model.TotalBill.ToString("C2")</th>
+                    </tr> *@
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Signatures -->
+        <div class="section signature-section">
+            <div class="row mt-5">
+                <div class="col-6">
+                    <div class="signature-line">
+                        <p>Doctor's Signature</p>
+                        <p>@Model.FullDoctorName</p>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="signature-line">
+                        <p>Patient's Signature</p>
+                        <p>@Model.FullPatientName</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

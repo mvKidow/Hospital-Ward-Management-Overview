@@ -1,0 +1,26 @@
+﻿@model InstructionViewModel
+// @{
+     Layout = "~/Views/Doctor/InstructionDelete";
+//     ViewData["Title"] = "Delete Instruction";
+}
+
+<h2>Delete Instruction</h2>
+<div>
+    <strong>Importance:</strong> @Model.Importance<br />
+    <strong>Date:</strong> @Model.Name <br />
+    <strong>Doctor Name:</strong> @Model.DoctorName<br />
+    <strong>Patient File ID:</strong> @Model.PatientFileId <br />
+    <strong>Details:</strong> @Model.Details <br />
+</div>
+
+<form asp-controller="Doctor" asp-action="InstructionDelete" asp-route-id="@Model.InstructionId" method="post"
+      onsubmit="return confirm('Are you sure you want to delete this Instruction?');">
+    @Html.AntiForgeryToken()
+    <div class="d-inline ml-2">
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a asp-action="Instructions" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+
+
+

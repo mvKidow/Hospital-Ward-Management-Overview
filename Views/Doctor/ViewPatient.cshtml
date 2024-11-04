@@ -1,0 +1,64 @@
+﻿@* @model List<PatientListViewModelDoctor> *@
+    @model List<DoctorPatientViewModel>
+
+@{
+    ViewData["Title"] = "Patient List";
+    Layout = "~/Views/Shared/_DoctorLayout.cshtml";
+}
+
+@* <div>
+    <a asp-controller="Doctor" asp-action="GraphOverviewForConditions">Graph Of Patients</a>
+</div> *@
+
+<h2 class="text-center mb-5 ">List of Patients</h2>
+
+<div class="row mb-5" class="card p-3">
+    <div class="col">
+        <form method="get" asp-controller="Doctor" asp-action="ViewPatient">
+            <div class="input-group">
+                <input type="text" class="form-control" name="searchTerm" placeholder="Search by Surname, Condition, Medication, or ID" />
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+    </div>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ProfilePhoto</th>
+                <th>PatientFileId</th>
+                <th>PatientName</th>
+                <th>PateintSurname</th>
+                <th>Allergies</th>
+                <th>Conditon</th>
+                <th>Medication</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var patient in Model)
+            {
+                <tr>
+                    <td>
+                        @if (patient.ProfilePhoto != null)
+                        {
+                            string base64String = Convert.ToBase64String(patient.ProfilePhoto);
+                            <img src="data:image/png;base64,@base64String" alt="Profile Photo" style="width: 50px; height: 50px;" />
+                        }
+                    </td>
+                    <td>@patient.PatientFileId</td>
+                    <td>@patient.Name</td>
+                    <td>@patient.Surname</td>
+                    <td>@patient.AllergyName</td>
+                    <td>@patient.ConditionName</td>
+                    <td>@patient.MedicationName</td> 
+
+                    <td style="white-space:nowrap">
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

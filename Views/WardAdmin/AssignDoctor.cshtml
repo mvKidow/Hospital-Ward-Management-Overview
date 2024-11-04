@@ -1,0 +1,96 @@
+﻿@model AssignDoctorViewModel
+
+@{
+    Layout = "~/Views/Shared/_WardAdminLayout.cshtml";
+    ViewData["Title"] = "Assign Doctor to Patient";
+}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h3>Patient File Search and Doctor Assignment</h3>
+        </div>
+        <div class="card-body">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success">@TempData["Success"]</div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger">@TempData["Error"]</div>
+            }
+
+            <!-- Search Form -->
+            <form asp-action="SearchPatientDoctor" method="post" class="mb-4">
+                <div class="form-group">
+                    <label for="patientFileId">Patient File ID:</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="patientFileId" name="patientFileId" required>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Patient Details and Doctor Assignment (shown only when patient is found) -->
+            @if (Model?.PatientFile != null)
+            {
+                <hr />
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        @if (Model.PatientFile.ProfilePhoto != null)
+                        {
+                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.PatientFile.ProfilePhoto)" 
+                                 alt="Patient Photo" 
+                                 class="img-fluid rounded-circle mb-3" 
+                                 style="max-width: 200px;" />
+                        }
+                    </div>
+                    <div class="col-md-8">
+                        <div class="patient-info">
+                            <h4>Patient Information</h4>
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <p class="mb-2"><strong>Name:</strong> @Model.PatientFile.PatientName @Model.PatientFile.PatientSurname</p>
+                                    <p class="mb-2"><strong>Condition:</strong> @Model.PatientFile.ConditionName</p>
+                                    <p class="mb-0"><strong>Description:</strong> @Model.PatientFile.ConditionDescription</p>
+                                </div>
+                            </div>
+
+                            <form asp-action="AssignDoctor" method="post">
+                                <input type="hidden" name="patientFileId" value="@Model.PatientFile.PatientFileId" />
+                                
+                                <div class="form-group">
+                                    <label for="userId">Select Doctor:</label>
+                                    <select class="form-control" id="userId" name="userId" required>
+                                        <option value="">-- Select Doctor --</option>
+                                        @foreach (var doctor in Model.AvailableDoctors)
+                                        {
+                                            <option value="@doctor.Value">@doctor.Text</option>
+                                        }
+                                    </select>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary mt-3">
+                                    <i class="fas fa-user-md"></i> Assign Doctor
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Clear the search input when the page loads if there's a patient displayed
+        $(document).ready(function() {
+            if (@(Model?.PatientFile != null ? "true" : "false")) {
+                $("#patientFileId").val("");
+            }
+        });
+    </script>
+}

@@ -1,0 +1,134 @@
+﻿@model Connect.Models.PatientAdmissionViewModel
+
+@{
+    Layout = "~/Views/Shared/_WardAdminLayout.cshtml";
+    ViewData["Title"] = "Admit Patient";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<div class="container-fluid mt-4">
+
+    <form asp-action="AdmitPatient" method="post" id="admitPatientForm">
+        @if (ViewBag.CurrentPhase == 1 || ViewBag.CurrentPhase == null)
+        {
+            <div id="phase1" class="phase mb-4">
+                <h4 class="text-center">Search Patient</h4>
+                <div class="row mb-4">
+                    <div class="col-md-6 mx-auto">
+                        <div class="input-group">
+                            <input type="number" id="patientIdInput" name="UserId" class="form-control" placeholder="Enter patient ID" required value="@Model.UserId" />
+                            <button type="submit" name="action" value="search" class="btn btn-primary">
+                                <i class="bi bi-search"></i> Search
+                            </button>
+                        </div>
+                        <span asp-validation-for="UserId" class="text-danger"></span>
+                    </div>
+                </div>
+                @if (ViewBag.SearchResult != null)
+                {
+                    <div id="patientSearchResult" class="@(ViewBag.SearchResult ? "text-success" : "text-danger") text-center">
+                        @(ViewBag.SearchResult ? "Patient found." : "Patient not found.")
+                    </div>
+                }
+            </div>
+        }
+
+        @if (ViewBag.CurrentPhase == 2)
+        {
+            <div id="phase2" class="phase mb-4">
+                <h4 class="text-center">Patient Details</h4>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="UserId" class="form-label">Patient ID</label>
+                        <input asp-for="UserId" class="form-control" readonly />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="PatientName" class="form-label">Patient Name</label>
+                        <input asp-for="PatientName" class="form-control" readonly />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="PatientSurname" class="form-label">Patient Surname</label>
+                        <input asp-for="PatientSurname" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" name="action" value="backToPhase1" class="btn btn-secondary">Back</button>
+                    <button type="submit" name="action" value="nextToPhase3" class="btn btn-primary">Next</button>
+                </div>
+            </div>
+        }
+
+        @if (ViewBag.CurrentPhase == 3)
+        {
+            <div id="phase3" class="phase mb-4">
+                <h4 class="text-center">Additional Details</h4>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="ConditionId" class="form-label">Condition</label>
+                        <select asp-for="ConditionId" asp-items="ViewBag.Conditions" class="form-control" required>
+                            <option value="">-- Select Condition --</option>
+                        </select>
+                        <span asp-validation-for="ConditionId" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="MedicationId" class="form-label">Medication (Optional)</label>
+                        <select asp-for="MedicationId" asp-items="ViewBag.Medications" class="form-control">
+                            <option value="">-- Select Medication --</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="AllergyId" class="form-label">Allergies (Optional)</label>
+                        <select asp-for="AllergyId" asp-items="ViewBag.Allergies" class="form-control">
+                            <option value="">-- Select Allergy --</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="PatientType" class="form-label">Patient Type</label>
+                        <select asp-for="PatientType" class="form-control" required>
+                            <option value="">-- Select Patient Type --</option>
+                            <option value="Inpatient">Inpatient</option>
+                            <option value="Outpatient">Outpatient</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" name="action" value="backToPhase2" class="btn btn-secondary">Back</button>
+                    <button type="submit" name="action" value="admit" class="btn btn-primary btn-lg">Admit Patient</button>
+                </div>
+            </div>
+        }
+    </form>
+</div>
+
+<style>
+    .phase {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 20px;
+        background-color: #f9f9f9;
+    }
+
+    .input-group input {
+        min-width: 250px; /* Ensure input width is consistent */
+    }
+
+    .text-center {
+        margin-bottom: 20px; /* Add some space below the title */
+    }
+
+    .form-label {
+        font-weight: bold; /* Make labels bold for better visibility */
+    }
+</style>

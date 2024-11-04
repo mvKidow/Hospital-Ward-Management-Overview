@@ -1,0 +1,384 @@
+﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Identity
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+      
+
+        <link rel="stylesheet" href="~/sb-admin-2.min.css" />
+
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+              rel="stylesheet" />
+ 
+
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+        <style>
+            #wrapper {
+                display: flex;
+                transition: all 0.3s;
+            }
+
+        #accordionSidebar {
+                width: 250px;
+                height: 100vh;
+                position: fixed;
+                top: 0;
+                left: -250px; /* Start off-screen */
+                z-index: 999;
+                transition: all 0.3s;
+            }
+
+            #content-wrapper {
+                width: 100%;
+                margin-left: 0;
+                transition: all 0.3s;
+            }
+
+        #accordionSidebar.expanded {
+                left: 0;
+            }
+
+            #content-wrapper.sidebar-expanded {
+                margin-left: 250px;
+            }
+
+            #sidebar-toggle {
+                position: fixed;
+                left: 0;
+                top: 50%;
+                width: 20px;
+                height: 50px;
+                background: #4e73df;
+                border-radius: 0 5px 5px 0;
+                cursor: pointer;
+                z-index: 1000;
+            }
+        </style>
+
+    </head>
+
+    <body id="page-top">
+        <!-- Page Wrapper -->
+        <div id="wrapper">
+
+            <div id="sidebar-toggle"></div>
+            <!-- Sidebar -->
+            <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+                <!-- Sidebar - Brand -->
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-controller="Admin" asp-action="AdminDashboard">
+                <div class="sidebar-brand-icon ">
+                    <img src="~/images/logosortof.webp" alt="CareConnect Logo" style="width: 50px; height: 40px; object-fit: contain; display: block;">
+                </div>
+                    <div class="sidebar-brand-text mx-3">Administrator</div>
+                </a>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider my-0">
+
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item active">
+                    <a class="nav-link" asp-controller="Admin" asp-action="Index">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <div class="sidebar-heading">
+                    Management
+                </div>
+
+                <!-- Nav Item - Utilities Collapse Menu -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMember"
+                       aria-expanded="true" aria-controls="collapseMember">
+                        <i class="fas fa-users"></i>
+                        <span>Member</span>
+                    </a>
+                    <div id="collapseMember" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" asp-controller="Admin" asp-action="CreateMember">Add Member</a>
+                            <a class="collapse-item" asp-controller="Admin" asp-action="ViewEmployees">Employee List</a>
+                            <a class="collapse-item" asp-controller="Admin" asp-action="CreateSchedule">Create Schedule</a>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseConsumables"
+                       aria-expanded="true" aria-controls="collapseConsumables">
+                        <i class="fas fa-boxes"></i>
+                        <span>Consumables</span>
+                    </a>
+                    <div id="collapseConsumables" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" asp-controller="Admin" asp-action="ViewAllConsumables">Manage Consumables</a>
+                            <a class="collapse-item" asp-controller="Admin" asp-action="AddNewConsumable">Add Consumable</a>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMedication"
+                       aria-expanded="true" aria-controls="collapseMedication">
+                        <i class="fas fa-pills"></i>
+                        <span>Medication</span>
+                    </a>
+                    <div id="collapseMedication" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" asp-controller="Admin" asp-action="ViewMedication">Manage Medication</a>
+                            <a class="collapse-item" asp-controller="Admin" asp-action="EditMediation">Edit Medication</a>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCondition"
+                       aria-expanded="true" aria-controls="collapseCondition">
+                        <i class="fas fa-notes-medical"></i>
+                        <span>Condition</span>
+                    </a>
+                    <div id="collapseCondition" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" asp-controller="Admin" asp-action="AddCondition">Manage Condition</a>
+                            <a class="collapse-item" asp-controller="Admin" asp-action="ConditionList">Condition List</a>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAllergy"
+                       aria-expanded="true" aria-controls="collapseAllergy">
+                        <i class="fas fa-allergies"></i>
+                        <span>Allergies</span>
+                    </a>
+                    <div id="collapseAllergy" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" asp-controller="Admin" asp-action="AddAllergy">Manage Allergies</a>
+                            <a class="collapse-item" asp-controller="Admin" asp-action="ViewAllergies">Allergy List</a>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseWards"
+                       aria-expanded="true" aria-controls="collapseWards">
+                        <i class="fas fa-bed"></i>
+                        <span>Wards And Rooms</span>
+                    </a>
+                    <div id="collapseWards" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                          
+                        <a class="collapse-item" asp-controller="Admin" asp-action="RoomAndBeds">Manage Rooms and Beds</a>
+
+                        </div>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseINFO"
+                       aria-expanded="true" aria-controls="collapseINFO">
+                        <i class="fas fa-info-circle"></i>
+                        <span>HOME PAGE</span>
+                    </a>
+                    <div id="collapseINFO" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" asp-controller="" asp-action="">Contact Us</a>
+                            <a class="collapse-item" asp-controller="" asp-action="">Manage information</a>
+                        </div>
+                    </div>
+                </li>
+
+                <hr class="sidebar-divider d-none d-md-block">
+
+                <div class="text-center d-none d-md-inline">
+                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                </div>
+
+            </ul>
+       
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    @(User.FindFirst("FullName")?.Value ?? "User")
+                                </span>
+                                @{
+                                    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                                    var photoUrl = $"/api/profile-photo/{userId}";
+                                }
+                                <img class="img-profile rounded-circle"
+                                     src="@photoUrl"
+                                     alt="Profile Photo"
+                                     onerror="this.src='/img/default-profile.jpg'"
+                                     style="width: 40px; height: 40px; object-fit: cover;" />
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                <a class="dropdown-item" asp-controller="Account" asp-action="Profile">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <a class="dropdown-item" asp-controller="Account" asp-action="EditProfile">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Settings
+                                </a>
+                                <a class="dropdown-item" asp-controller="Account" asp-action="ActivityLog">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Activity Log
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" asp-controller="Account" asp-action="Logout" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+
+                @RenderBody()
+                @RenderSection("Scripts", required: false)
+                </div>
+
+          
+               
+            
+
+            </div>
+
+            <a class="scroll-to-top rounded" href="#page-top">
+                <i class="fas fa-angle-up"></i>
+            </a>
+
+            <!-- Logout Modal-->
+            <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <a class="btn btn-primary" asp-controller="Account" asp-action="Logout">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="text-center text-lg-start bg-light text-muted">
+            <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+                <div class="me-5 d-lg-block d-none">
+                    <span class="mx-2"></span><i class="fa fa-phone mx-1"></i>+01 434 567 88
+                    <span><i class="fa fa-calendar mx-1"></i> Mon-Fri: 07:00-16:00</span>
+                </div>
+                <div>
+                    <a href="" class="me-4 text-reset">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="" class="me-4 text-reset">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="" class="me-4 text-reset">
+                        <i class="fab fa-google"></i>
+                    </a>
+                    <a href="" class="me-4 text-reset">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="" class="me-4 text-reset">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="" class="me-4 text-reset">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </section>
+            <section class="text-center">
+                <p>&copy; 2024 CareConnect. All rights reserved.</p>
+            </section>
+        </footer>
+
+        
+
+        <script src="~/jquery.min.js"></script>
+        <script src="~/bootstrap.bundle.min.js"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="~/jquery.easing.min.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="~/sb-admin-2.min.js"></script>
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const sidebar = document.getElementById('accordionSidebar');
+                const contentWrapper = document.getElementById('content-wrapper');
+                const sidebarToggle = document.getElementById('sidebar-toggle');
+                let timeoutId;
+
+                function expandSidebar() {
+                    sidebar.classList.add('expanded');
+                    contentWrapper.classList.add('sidebar-expanded');
+                }
+
+                function collapseSidebar() {
+                    sidebar.classList.remove('expanded');
+                    contentWrapper.classList.remove('sidebar-expanded');
+                }
+
+                // Expand sidebar when mouse enters toggle button or sidebar
+                sidebarToggle.addEventListener('mouseenter', expandSidebar);
+                sidebar.addEventListener('mouseenter', function() {
+                    clearTimeout(timeoutId);
+                    expandSidebar();
+                });
+
+                // Collapse sidebar when mouse leaves sidebar
+                sidebar.addEventListener('mouseleave', function() {
+                    timeoutId = setTimeout(collapseSidebar, 300);
+                });
+
+                // Collapse sidebar when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!sidebar.contains(event.target) && !sidebarToggle.contains(event.target)) {
+                        collapseSidebar();
+                    }
+                });
+
+                // Initially collapse the sidebar
+                collapseSidebar();
+            });
+        </script>
+      
+
+    </body>
+
+
+</html>

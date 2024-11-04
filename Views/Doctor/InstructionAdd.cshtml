@@ -1,0 +1,66 @@
+﻿@model InstructionViewModel
+    @{
+        ViewData["Title"] = "Create Instruction";
+        Layout = "~/Views/Shared/_DoctorLayout.cshtml";
+    }
+
+    <h2>Add New Instruction</h2>
+
+    <form asp-action="InstructionAdd">
+    <div class="form-group">
+        <label for="PatientFileId">Patient File ID</label>
+        <input type="number" asp-for="PatientFileId" class="form-control" />
+    </div>
+        <div class="form-group">
+             <label for="Name">Patient Name</label>
+            @*  <input type="text" class="form-control" value="@ViewBag.PatientName" /> *@
+        <select asp-for="Name" class="form-control" asp-items="ViewBag.PatientName" required>
+            <option value="">-- Select Patient --</option>
+            <option value="Maxine Douwe">Maxine Douwe</option>
+            <option value="Layla LeRoux">Layla LeRoux</option>
+            <option value="Mmeli Ndzuza">Mmeli Ndzuza</option>
+            <option value="Bree Hadson">Bree Hadson</option>
+            <option value="Lungile Mbongi">Lungile Mbongi</option>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </select>
+        </div>
+
+        <div class="form-group">
+            <label for="Date">Date</label>
+            <input type="date" asp-for="Date" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label for="Details">Details</label>
+            <textarea asp-for="Details" class="form-control"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="DoctorName">Doctor<span class="text-danger">*</span></label>
+            <select asp-for="DoctorName" class="form-control" asp-items="ViewBag.Doctors" required>
+                <option value="">-- Select Doctor --</option>
+            <option value="Dr Manyuka">Dr Manyuka</option>
+            <option value="Dr Fuller">Dr Fuller</option>
+            <option value="Dr Markson">Dr Markson</option>
+            <span asp-validation-for="DoctorName" class="text-danger"></span>
+            </select>
+        </div>
+
+    <div class="form-group">
+        <label for="Importance">Importance<span class="text-danger">*</span></label>
+        <select asp-for="Importance" class="form-control" asp-items="ViewBag.Impotance" required>
+            <option value="">-- Select Importance --</option>
+            <option value="Low">Low</option>
+            <option value="Meduim">Meduim</option>
+            <option value="High">High</option>
+            <option value="Urgent">Urgent</option>
+            <span asp-validation-for="DoctorName" class="text-danger"></span>
+        </select>
+    </div>
+
+        <button type="submit" class="btn btn-primary">Add Instruction</button>
+        <a href="@Url.Action("Instructions")" class="btn btn-secondary">Back to Instructions List</a>
+    </form>
+
+
+

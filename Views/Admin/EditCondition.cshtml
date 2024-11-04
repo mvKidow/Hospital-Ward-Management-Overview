@@ -1,0 +1,24 @@
+﻿@model ConditionViewModel
+@{
+    ViewData["Title"] = "Edit Condition";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container my-4">
+    <h3>Edit Condition</h3>
+    <form asp-action="UpdateCondition" method="post">
+        <input type="hidden" asp-for="ConditionId" />
+        <div class="mb-3">
+            <label asp-for="ConditionName" class="form-label">Condition Name</label>
+            <input asp-for="ConditionName" class="form-control" />
+            <span asp-validation-for="ConditionName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label">Description</label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a asp-action="ConditionList" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

@@ -1,0 +1,68 @@
+﻿@model CareConnectInfor
+
+<h2>Edit Website Information</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+
+<form asp-action="EditWebsite">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="CompanyName"></label>
+        <input asp-for="CompanyName" class="form-control" />
+        <span asp-validation-for="CompanyName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Phone"></label>
+        <input asp-for="Phone" class="form-control" />
+        <span asp-validation-for="Phone" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="WorkingHours"></label>
+        <input asp-for="WorkingHours" class="form-control" />
+        <span asp-validation-for="WorkingHours" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="AboutTitle"></label>
+        <input asp-for="AboutTitle" class="form-control" />
+        <span asp-validation-for="AboutTitle" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="AboutDescription"></label>
+        <textarea asp-for="AboutDescription" class="form-control"></textarea>
+        <span asp-validation-for="AboutDescription" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ServiceTitle"></label>
+        <input asp-for="ServiceTitle" class="form-control" />
+        <span asp-validation-for="ServiceTitle" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ServiceDescription"></label>
+        <textarea asp-for="ServiceDescription" class="form-control"></textarea>
+        <span asp-validation-for="ServiceDescription" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

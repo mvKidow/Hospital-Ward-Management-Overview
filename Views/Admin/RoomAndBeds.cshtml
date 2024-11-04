@@ -1,0 +1,246 @@
+﻿
+@{
+    ViewData["Title"] = "Ward Management";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/styles.css" />
+}
+
+<div class="container">
+    <h1>Ward Administration</h1>
+    <nav>
+        <ul class="tabs">
+            <li class="active" onclick="showTab('rooms')">Rooms</li>
+            <li onclick="showTab('beds')">Beds</li>
+            <li onclick="showTab('employees')">Employees</li>
+            <li onclick="showTab('consumables')">Consumables</li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        <!-- Room Management Section -->
+        <div id="rooms" class="tab active">
+            <h2>Room Management</h2>
+            <input type="text" id="roomSearch" placeholder="Search Rooms..." onkeyup="filterRooms()" />
+            <table>
+                <thead>
+                    <tr>
+                        <th>Room Number</th>
+                        <th>Availability</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="roomTable">
+                    @foreach (var room in Model.Rooms)
+                    {
+                        <tr>
+                            <td>@room.RoomNumber</td>
+                            <td class="@(room.IsAvailable ? "available" : "occupied")">@room.AvailabilityStatus</td>
+                            <td>
+                                <button onclick="editRoom(@room.RoomNumber)">Edit</button>
+                                <button onclick="deleteRoom(@room.RoomNumber)">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <button onclick="addRoom()">Add Room</button>
+        </div>
+
+        <!-- Bed Management Section -->
+        <div id="beds" class="tab">
+            <h2>Bed Management</h2>
+            <input type="text" id="bedSearch" placeholder="Search Beds..." onkeyup="filterBeds()" />
+            <table>
+                <thead>
+                    <tr>
+                        <th>Bed Number</th>
+                        <th>Room Number</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="bedTable">
+                    @foreach (var bed in Model.Beds)
+                    {
+                        <tr>
+                            <td>@bed.BedNumber</td>
+                            <td>@bed.RoomNumber</td>
+                            <td class="@(bed.IsAvailable ? "available" : "occupied")">@bed.Status</td>
+                            <td>
+                                <button onclick="assignPatient(@bed.BedNumber)">Assign Patient</button>
+                                <button onclick="viewDetails(@bed.BedNumber)">View Details</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <button onclick="addBed()">Add Bed</button>
+        </div>
+
+        <!-- Additional management sections can be added here -->
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/script.js"></script>
+
+    <script>
+        function showTab(tabId) {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            document.getElementById(tabId).classList.add('active');
+
+            const tabButtons = document.querySelectorAll('.tabs li');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+                if (button.textContent.toLowerCase() === tabId) {
+                    button.classList.add('active');
+                }
+            });
+        }
+
+        function filterRooms() {
+            const input = document.getElementById('roomSearch');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('roomTable');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 0; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                const roomNumber = cells[0].textContent.toLowerCase();
+                rows[i].style.display = roomNumber.includes(filter) ? '' : 'none';
+            }
+        }
+
+        function filterBeds() {
+            const input = document.getElementById('bedSearch');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('bedTable');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 0; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                const bedNumber = cells[0].textContent.toLowerCase();
+                rows[i].style.display = bedNumber.includes(filter) ? '' : 'none';
+            }
+        }
+
+        function addRoom() {
+            const roomData = {
+                // Add room data collection logic here
+                roomNumber: document.getElementById('newRoomNumber').value,
+                // Add other room properties
+            };
+
+            fetch('/WardAdmin/AddRoom', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(roomData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Refresh the room table or add the new room to the table
+                        location.reload();
+                    } else {
+                        alert('Failed to add room: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while adding the room');
+                });
+        }
+
+        function editRoom(roomNumber) {
+            // First, fetch the room details
+            fetch(`/WardAdmin/GetRoom/${roomNumber}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Populate a form with the room data
+                        // Then update the room
+                        const updatedData = {
+                            // Add room update data collection logic here
+                        };
+
+                        return fetch('/WardManagement/UpdateRoom', {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(updatedData)
+                        });
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Failed to update room: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while updating the room');
+                });
+        }
+
+        function deleteRoom(roomNumber) {
+            if (confirm('Are you sure you want to delete this room?')) {
+                fetch(`/WardManagement/DeleteRoom/${roomNumber}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            alert('Failed to delete room: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while deleting the room');
+                    });
+            }
+        }
+
+        // Similar functions for bed management
+        function addBed() {
+            const bedData = {
+                // Add bed data collection logic here
+            };
+
+            fetch('/WardAdmin/AddBed', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(bedData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Failed to add bed: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while adding the bed');
+                });
+        }
+    </script>
+}

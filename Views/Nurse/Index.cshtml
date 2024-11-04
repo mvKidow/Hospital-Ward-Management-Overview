@@ -1,0 +1,176 @@
+﻿@model Connect.Models.NurseDashboardViewModel
+
+@{
+    Layout = "~/Views/Shared/_NurseLayout.cshtml";
+
+    ViewData["Title"] = "Nurse Dashboard";
+
+}
+
+
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Nurse Dashboard</h1>
+
+    <div class="row mt-4">
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-primary text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>Total Patients</div>
+                        <div><i class="fas fa-hospital-user"></i></div>
+                    </div>
+                    <div class="mt-2">
+                        <h2>@Model.TotalPatients</h2>
+                        <div class="small">+2 from yesterday</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-warning text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>Pending Vitals</div>
+                        <div><i class="fas fa-thermometer-half"></i></div>
+                    </div>
+                    <div class="mt-2">
+                        <h2>@Model.PendingVitals</h2>
+                        <div class="small">Requires attention</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-success text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>Medication Due</div>
+                        <div><i class="fas fa-pills"></i></div>
+                    </div>
+                    <div class="mt-2">
+                        <h2>@Model.MedicationsDue</h2>
+                        <div class="small">Next in 30 minutes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-danger text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>Doctor Requests</div>
+                        <div><i class="fas fa-user-md"></i></div>
+                    </div>
+                    <div class="mt-2">
+                        <h2>@Model.DoctorRequests</h2>
+                        <div class="small">Waiting for response</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-bar me-1"></i>
+                    Patient Distribution
+                </div>
+                <div class="card-body">
+                    <canvas id="patientDistributionChart" width="100%" height="40"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-tasks me-1"></i>
+                    Quick Actions
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <a href="#" class="btn btn-primary btn-block">
+                                <i class="fas fa-thermometer me-2"></i> Record Vitals
+                            </a>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <a href="#" class="btn btn-secondary btn-block">
+                                <i class="fas fa-tint me-2"></i> Change IV
+                            </a>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <a href="#" class="btn btn-success btn-block">
+                                <i class="fas fa-pills me-2"></i> Administer Medication
+                            </a>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <a href="#" class="btn btn-info btn-block">
+                                <i class="fas fa-phone me-2"></i> Contact Doctor
+                            </a>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <a href="#" class="btn btn-warning btn-block">
+                                <i class="fas fa-clipboard-list me-2"></i> View Instructions
+                            </a>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <a href="#" class="btn btn-danger btn-block">
+                                <i class="fas fa-eye me-2"></i> Patient Overview
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-clock me-1"></i>
+            Upcoming Tasks
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                @foreach (var task in Model.UpcomingTasks)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        @task.Description
+                        <span class="badge bg-primary rounded-pill">@task.DueIn</span>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Patient Distribution Chart
+        var ctx = document.getElementById('patientDistributionChart').getContext('2d');
+        var patientDistributionChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [@Html.Raw(string.Join(",", Model.PatientDistribution.Select(p => $"'{p.RoomName}'")))],
+                datasets: [{
+                    label: 'Number of Patients',
+                    data: [@string.Join(",", Model.PatientDistribution.Select(p => p.PatientCount))],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        stepSize: 1
+                    }
+                }
+            }
+        });
+    </script>
+}

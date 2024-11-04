@@ -1,0 +1,75 @@
+﻿@model IEnumerable<ConditionViewModel>
+@{
+    ViewData["Title"] = "All Conditions";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<div class="container my-4">
+    <h3 class="text-center mb-4">Condition List</h3>
+
+    <div class="d-flex justify-content-between mb-3">
+        <a asp-action="AddCondition" class="btn btn-success">Add New Condition</a>
+        <form method="get" asp-action="ConditionList">
+            <div class="input-group">
+                <input type="text" class="form-control" id="searchTerm" name="getCondition" placeholder="Search by name..." />
+                <button class="btn btn-outline-secondary" type="submit">
+                    <i class="bi bi-search"></i> Search
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card p-3">
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ConditionName</td>
+                        <td>@item.Description</td>
+                        <td>
+                            <a asp-action="EditCondition" asp-controller="Admin" asp-route-id="@item.ConditionId" class="btn btn-primary btn-sm">Edit</a>
+                            <form asp-action="DeleteCondition" asp-route-id="@item.ConditionId" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this condition?');">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-between">
+            <small>Page @ViewBag.Page of @ViewBag.TotalPages (@ViewBag.TotalItems items)</small>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination pagination-sm mb-0">
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.Page ? "active" : "")">
+                            <a class="page-link" asp-action="ConditionList" asp-route-page="@i" asp-route-getCondition="@Context.Request.Query["getCondition"]">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

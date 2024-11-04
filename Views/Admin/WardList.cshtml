@@ -1,0 +1,96 @@
+﻿@model IEnumerable<CareConnect.Models.Ward>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Ward List";
+}
+
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Ward List</h2>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Ward ID</th>
+                <th>Ward Name</th>
+                <th>Type</th>
+                <th>Capacity</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ward in Model)
+            {
+                <tr>
+                    <td>@ward.WardId</td>
+                    <td>
+                        <span class="ward-name">@ward.WardName</span>
+                        <input type="text" class="form-control edit-input" style="display: none;" value="@ward.WardName">
+                    </td>
+                    <td>
+                        <span class="ward-type">@ward.Type</span>
+                        <input type="text" class="form-control edit-input" style="display: none;" value="@ward.Type" maxlength="50">
+                    </td>
+                    <td>
+                        <span class="ward-capacity">@ward.Capacity</span>
+                        <input type="number" class="form-control edit-input" style="display: none;" value="@ward.Capacity">
+                    </td>
+                    <td>@ward.Status</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm edit-btn">Edit</button>
+                        <button class="btn btn-success btn-sm save-btn" style="display: none;">Save</button>
+                        @if (ward.Status == "Active")
+                        {
+                            <form asp-action="ChangeStatus" asp-route-id="@ward.WardId" asp-route-status="Inactive" method="post" style="display: inline;">
+                                <button type="submit" class="btn btn-danger btn-sm">Deactivate</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form asp-action="ChangeStatus" asp-route-id="@ward.WardId" asp-route-status="Active" method="post" style="display: inline;">
+                                <button type="submit" class="btn btn-success btn-sm">Activate</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.edit-btn').click(function () {
+                var row = $(this).closest('tr');
+                row.find('.ward-name, .ward-type, .ward-capacity').hide();
+                row.find('.edit-input').show();
+                $(this).hide();
+                row.find('.save-btn').show();
+            });
+
+            $('.save-btn').click(function () {
+                var row = $(this).closest('tr');
+                var id = row.find('td:first').text();
+                var name = row.find('.edit-input:eq(0)').val();
+                var type = row.find('.edit-input:eq(1)').val();
+                var capacity = row.find('.edit-input:eq(2)').val();
+
+                $.ajax({
+                    url: '@Url.Action("Update", "Ward")',
+                    type: 'POST',
+                    data: { WardId: id, WardName: name, Type: type, Capacity: capacity },
+                    success: function () {
+                        row.find('.ward-name').text(name).show();
+                        row.find('.ward-type').text(type).show();
+                        row.find('.ward-capacity').text(capacity).show();
+                        row.find('.edit-input').hide();
+                        row.find('.save-btn').hide();
+                        row.find('.edit-btn').show();
+                    }
+                });
+            });
+        });
+    </script>
+}

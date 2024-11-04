@@ -1,0 +1,22 @@
+﻿@model Connect.Models.TreatmentViewModel
+@{
+    ViewData["Title"] = "Treat Patient";
+}
+
+<h2>Treat Patient</h2>
+
+<form asp-action="TreatPatient" method="post">
+    <div class="form-check">
+        <input type="checkbox" asp-for="ChangeIVDrip" class="form-check-input" />
+        <label class="form-check-label" for="ChangeIVDrip">Change IV Drip</label>
+    </div>
+    <div class="form-check">
+        <input type="checkbox" asp-for="ChangeCatheter" class="form-check-input" />
+        <label class="form-check-label" for="ChangeCatheter">Change Catheter</label>
+    </div>
+    <div class="form-check">
+        <input type="checkbox" asp-for="DressWound" class="form-check-input" />
+        <label class="form-check-label" for="DressWound">Dress Wound</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Treatment</button>
+</form>

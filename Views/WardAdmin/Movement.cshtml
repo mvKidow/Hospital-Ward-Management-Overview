@@ -1,0 +1,87 @@
+﻿@model IEnumerable<PatientFileViewModel>
+@{
+    Layout = "~/Views/Shared/_WardAdminLayout.cshtml";
+    ViewData["Title"] = "Patient Movements";
+}
+<div class="container">
+    <h2>Room Patients List Movements</h2>
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success">@TempData["Message"]</div>
+    }
+    <form asp-controller="WardAdmin" asp-action="Movement" method="get">
+        <div class="form-group">
+            <label for="RoomNo">Room No:</label>
+            <input type="number" name="roomId" class="form-control" placeholder="Enter Room Number" required />
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+    <hr />
+    <h3>Search Patient by ID</h3>
+    <form asp-controller="WardAdmin" asp-action="Movement" method="get">
+        <div class="form-group">
+            <label for="PatientFileId">Patient File ID:</label>
+            <input type="number" name="patientFileId" class="form-control" placeholder="Enter Patient File ID" />
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+    @if (Model != null && Model.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Patient File ID</th>
+                    <th>Bed No</th>
+                    <th>Room No</th>
+                    <th>Patient Type</th>
+                    <th>Patient Name</th>
+                    <th>Movement Status</th>
+                    <th>Condition</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var patient in Model)
+                {
+                    <tr>
+                        <td>@patient.PatientFileId</td>
+                        <td>@patient.BedId</td>
+                        <td>@patient.RoomId</td>
+                        <td>@patient.PatientType</td>
+                        <td>@patient.Name @patient.Surname</td>
+                        <td>@patient.ToLocation</td>
+                        <td>@patient.ConditionId</td>
+                        <td>
+                            <form asp-controller="WardAdmin" asp-action="Movement" method="post">
+                                <input type="hidden" name="patientFileId" value="@patient.PatientFileId" />
+                                <input type="hidden" name="roomId" value="@patient.RoomId" />
+                                <select name="status" class="form-control">
+                                    @if (patient.ToLocation == "In")
+                                    {
+                                        <option value="In" selected>In</option>
+                                        <option value="Out">Out</option>
+                                    }
+                                    else if (patient.ToLocation == "Out")
+                                    {
+                                        <option value="In">In</option>
+                                        <option value="Out" selected>Out</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="In">In</option>
+                                        <option value="Out">Out</option>
+                                    }
+                                </select>
+                                <button type="submit" class="btn btn-success">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No patients found.</p>
+    }
+</div>

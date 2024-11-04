@@ -1,0 +1,58 @@
+﻿@model AppointmentViewModel
+@{
+    ViewData["Title"] = "Create Appointment";
+    Layout = "~/Views/Shared/_DoctorLayout.cshtml";
+}
+
+<h2>Add New Appointment</h2>
+
+<form asp-action="ScheduleAdd">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <labe for="PatientFileId">PatientFileId</labe>
+        <input type="number" asp-for="PatientFileId" class="form-control" />
+        <span asp-validation-for="PatientFileId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <labe for="PatientName">PatientName</labe>
+        <input type="text" asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="Date">Date</label>
+        <input type="date" asp-for="Date" class="form-control" />
+        <span asp-validation-for="Date" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <labe for="Time">Time</labe>
+        <input type="time" asp-for="Time" class="form-control"/>
+        <span asp-validation-for="Time"class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <labe for="Reason">Reason</labe>
+        <input type="text" asp-for="Reason" class="form-control" />
+        <span asp-validation-for="Reason" class="text-danger"></span>
+    </div>
+ 
+    <div class="form-group">
+        <label for="Status">Status<span class="text-danger">*</span></label>
+        <select asp-for="Status" class="form-control" asp-items="ViewBag.Status" required>
+            <option value="">-- Select Status --</option>
+            <span asp-validation-for="Status" class="text-danger"></span>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Schedule</button>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+
+
+
+
+
+
+

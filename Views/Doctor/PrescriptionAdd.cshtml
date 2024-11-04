@@ -1,0 +1,44 @@
+﻿@model PrescriptionViewModel
+@{
+    ViewData["Title"] = "Create Prescription";
+    Layout = "~/Views/Shared/_DoctorLayout.cshtml";
+}
+<h2>Add New Prescription</h2>
+
+<form asp-action="PrescriptionAdd">
+    
+    <div class="form-group">
+        <label for="PatientFileId">Patient File ID</label>
+        <input type="number" asp-for="PatientFileId" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Name">Patient Name</label>
+        <input type="text" asp-for="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Date">Date</label>
+        <input type="date" asp-for="Date" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="Dosage">Dosage</label>
+        <input type="text" asp-for="Dosage" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Status">Medication<span class="text-danger">*</span></label>
+        <select asp-for="Medication" class="form-control" asp-items="ViewBag.Medication" required>
+            <option value="">-- Select Medication --</option>
+            <option value="simvastatin (Zocor)">Simvastatin (Zocor)</option>
+            <option value="Omeprazole, oral capsule">Omeprazole, oral capsule</option>
+            <option value="Amlodipine">Amlodipine</option>
+            <option value="Metoprolol oral tablet">Metoprolol oral tablet</option>
+            <option value="Acetaminophen-hydrocodone">Acetaminophen-hydrocodone</option>
+            <span asp-validation-for="Medication" class="text-danger"></span>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add Prescription</button>
+</form>
+
+<a href="@Url.Action("Prescription")" class="btn btn-secondary">Back to Prescriptions List</a>
+

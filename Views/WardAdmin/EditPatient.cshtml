@@ -1,0 +1,47 @@
+﻿@model Connect.Models.EditPatientViewModel
+
+@{
+    ViewData["Title"] = "Edit Patient";
+    Layout = "~/Views/Shared/_WardAdminLayout.cshtml";
+}
+
+<div class="container my-4">
+    <h3>Edit Patient</h3>
+    <form method="post" asp-action="EditPatient">
+        <input type="hidden" asp-for="PatientFileId" />
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" required />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Surname" class="form-label"></label>
+            <input asp-for="Surname" class="form-control" required />
+        </div>
+        <div class="mb-3">
+            <label asp-for="PatientType" class="form-label"></label>
+            <input asp-for="PatientType" class="form-control" required />
+        </div>
+        <div class="mb-3">
+            <label asp-for="ConditionId" class="form-label"></label>
+            <select asp-for="ConditionId" class="form-select">
+                <!-- Populate conditions from the model or ViewBag -->
+                @* Example: *@
+                @foreach (var condition in Model.Conditions)
+                {
+                    <option value="@condition.ConditionId">@condition.Description</option>
+                }
+            </select>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ProfilePhoto" class="form-label"></label>
+            <input type="file" asp-for="ProfilePhoto" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label class="form-check-label">
+                <input type="checkbox" asp-for="IsActive" class="form-check-input" />
+                Mark as Inactive
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>

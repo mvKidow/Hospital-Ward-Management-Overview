@@ -1,0 +1,19 @@
+﻿@model PatientListViewModelDoctor
+@{
+    ViewData["Title"] = "Patient List";
+    Layout = "~/Views/Shared/_DoctorLayout.cshtml";
+}
+<h2>Patient Details</h2>
+
+<div>
+    <h3>Patient Name: @Model.Name @Model.Surname</h3>
+</div>
+
+<div>
+    <p><strong>Patient Type:</strong> @Model.PatientType</p>
+    <p><strong>Condition Description:</strong> @Model.ConditionName</p>
+    <p><strong>Medication:</strong> @Model.MedicationName</p>
+    <p><strong>Allergy:</strong> @Model.AllergyName</p>
+</div>
+<a href="@Url.Action("ViewPatient")" class="btn btn-secondary">Back to List</a>
+

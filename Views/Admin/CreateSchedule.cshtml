@@ -1,0 +1,65 @@
+﻿@model Connect.Models.ShiftAssignment
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <h3>Create Schedule</h3>
+
+    <form asp-action="CreateSchedule" method="post">
+      <div class="card shadow-lg">
+            
+            <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Member Information</h5>
+            </div>
+
+          <div class="card-body">
+                 <div class="row">
+
+                        <div class="col-md-4 mb-3">
+                        <label asp-for="Date" class="col-sm-3 col-form-label">Date:</label>
+                    
+                            <input asp-for="Date" class="form-control" type="date">
+                            <span asp-validation-for="Date" class="text-danger"></span>
+                        </div>                                 
+                 </div>
+
+               
+                    <div class="row">                     
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="UserId" >Employee:</label>
+                            <select asp-for="UserId" class="form-control" asp-items="@(ViewBag.Users)">
+                                <option value="">-- Select Employee --</option>
+                                <option value="">Doctor</option>
+                                <option value="">System Admin</option>
+                                <option value="">Ward Admin</option>
+                                <option value="">Nurse</option>
+                            </select>
+                            <span asp-validation-for="UserId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                
+                    <div class="row">"
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="Shift" class="col-sm-3 col-form-label">Shift:</label>
+
+                            <select asp-for="Shift" class="form-control">
+                                <option value="Morning">Morning</option>
+                                <option value="Afternoon">Afternoon</option>
+                                <option value="Night">Night</option>
+                            </select>
+                            <span asp-validation-for="Shift" class="text-danger"></span>
+                        </div>
+
+                    </div>
+               
+               
+          </div>
+            <div class="card-footer text-center">
+                    <button type="submit" class="btn btn-primary">Assign</button>
+            </div>
+      </div>
+    </form>
+</div>

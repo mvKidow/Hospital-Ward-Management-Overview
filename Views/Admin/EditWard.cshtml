@@ -1,0 +1,38 @@
+﻿@model CareConnect.Models.Ward
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Edit Ward";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="text-center">Edit Ward</h2>
+                </div>
+                <div class="card-body">
+                    <form asp-action="EditWard" method="post">
+                        <input type="hidden" asp-for="WardId" />
+                        <div class="form-group">
+                            <label asp-for="WardName">Ward Name</label>
+                            <input asp-for="WardName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Type">Type</label>
+                            <input asp-for="Type" class="form-control" required maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Capacity">Capacity</label>
+                            <input asp-for="Capacity" class="form-control" type="number" required>
+                        </div>
+                        <div class="text-center mt-3">
+                            <button type="submit" class="btn btn-primary">Update Ward</button>
+                            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

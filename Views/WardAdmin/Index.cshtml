@@ -1,0 +1,177 @@
+﻿
+@model Connect.Models.WardDashboardData
+@{
+    Layout = "~/Views/Shared/_WardAdminLayout.cshtml";
+    ViewData["Title"] = "Ward Admin Dashboard";
+}
+
+@if (!string.IsNullOrEmpty(TempData["ErrorMessage"]?.ToString()))
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+@* Add Ward Selection if needed *@
+    <div class="mb-4">
+        <form asp-action="Dashboard" asp-controller="WardAdmin" method="get" class="form-inline">
+            <div class="form-group">
+                <label for="wardSelect" class="mr-2">Select Ward:</label>
+                <select id="wardSelect" name="wardId" class="form-control" onchange="this.form.submit()">
+                    <option value="">Select a Ward</option>
+                    @foreach (var ward in ViewBag.Wards ?? Enumerable.Empty<SelectListItem>())
+                    {
+                        <option value="@ward.Value">@ward.Text</option>
+                    }
+                </select>
+            </div>
+        </form>
+    </div>
+
+    <div class="container-fluid py-4">
+        <h1 class="h3 mb-4 text-gray-800">Ward Admin Dashboard</h1>
+        
+        <!-- Quick Action Buttons -->
+        <div class="row mb-4">
+            <div class="col-md-3 mb-4">
+                <a asp-action="AdmitPatient" asp-controller="WardAdmin" class="card text-white bg-primary quick-action-btn">
+                    <div class="card-body">
+                        <i class="fas fa-user-plus fa-2x float-start"></i>
+                        <p class="card-text text-end">Admit Patient</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 mb-4">
+                <a asp-action="AssignRoomAndBed" asp-controller="WardAdmin" class="card text-white bg-success quick-action-btn">
+                    <div class="card-body">
+                        <i class="fas fa-bed fa-2x float-start"></i>
+                        <p class="card-text text-end">Assign Room</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 mb-4">
+                <a asp-action="PatientList" asp-controller="WardAdmin" class="card text-white bg-warning quick-action-btn">
+                    <div class="card-body">
+                        <i class="fas fa-clipboard-list fa-2x float-start"></i>
+                        <p class="card-text text-end">Patient List</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 mb-4">
+                <a asp-action="DischargeReport" asp-controller="WardAdmin" class="card text-white bg-info quick-action-btn">
+                    <div class="card-body">
+                        <i class="fas fa-file-medical fa-2x float-start"></i>
+                        <p class="card-text text-end">Generate Report</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <!-- Doctor to Patient Ratio Pie Chart -->
+            <div class="col-xl-4 col-lg-5">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Doctor to Patient Ratio</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-pie pt-4">
+                            <canvas id="doctorPatientRatioChart"></canvas>
+                        </div>
+                        <div class="mt-4 text-center small">
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-primary"></i> Doctors
+                            </span>
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-success"></i> Patients
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-8 col-lg-7">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Rooms and Beds Overview</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-bar">
+                            <canvas id="staffPatientChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+
+         console.log('Chart Data:', {
+            doctors: @(Model?.TotalDoctors ?? 0),
+            patients: @(Model?.TotalPatientFiles ?? 0),
+            availableBeds: @(Model?.AvailableBeds ?? 0),
+            availableRooms: @(Model?.AvailableRooms ?? 0),
+            totalBeds: @(Model?.TotalBeds ?? 0)
+        });
+        // Doctor to Patient Ratio Pie Chart
+        var ctxPie = document.getElementById('doctorPatientRatioChart').getContext('2d');
+        var doctorPatientRatioChart = new Chart(ctxPie, {
+            type: 'pie',
+            data: {
+                labels: ['Doctors', 'Patients'],
+                datasets: [{
+                    data: [@Model.TotalDoctors ?? 0, @Model.TotalPatientFiles ?? 0],
+                    backgroundColor: ['#4e73df', '#1cc88a'],
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    caretPadding: 10,
+                },
+                legend: {
+                    display: true
+                },
+                cutoutPercentage: 80,
+            },
+        });
+
+        var ctxBar = document.getElementById('staffPatientChart').getContext('2d');
+        var staffPatientChart = new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: ['Available Beds', 'Available Rooms', 'Total Beds'],
+                datasets: [{
+                    label: 'Count',
+                    data: [@Model.AvailableBeds ?? 0, @Model.AvailableRooms ?? 0, @Model.TotalBeds ?? 0],
+                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+
+
+

@@ -1,0 +1,229 @@
+﻿@model Connect.Models.CreateMemberViewModel
+
+@{
+    ViewData["Title"] = "Create Member";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container py-4">
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+    <div class="card shadow p-4">
+        <form method="post" asp-action="CreateMember" enctype="multipart/form-data" id="createMemberForm" novalidate>
+
+            <!-- Step 1: Personal Details -->
+            <div class="phase" id="phase1">
+                <h4>Personal Details</h4>
+                <div class="row g-4">
+                    <!-- Title -->
+                    <div class="col-md-6">
+                        <label asp-for="Title" class="form-label">Title</label>
+                        <select asp-for="Title" class="form-select">
+                            <option value="">-- Select Role --</option>
+                            <option value="Mr">Mr</option>
+                            <option value="Mrs">Mrs</option>
+                            <option value="Miss">Miss</option>
+                            <option value="Dr">Dr</option>
+                        </select>
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+
+                    <!-- First Name -->
+                    <div class="col-md-6">
+                        <label asp-for="Name" class="form-label">First name</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <!-- Last Name -->
+                    <div class="col-md-6">
+                        <label asp-for="Surname" class="form-label">Last name</label>
+                        <input asp-for="Surname" class="form-control" />
+                        <span asp-validation-for="Surname" class="text-danger"></span>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="col-md-6">
+                        <label asp-for="Email" class="form-label">Email address</label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="col-md-6">
+                        <label asp-for="Phone" class="form-label">Phone</label>
+                        <div class="input-group">
+                            <span class="input-group-text">+27</span>
+                            <input asp-for="Phone" class="form-control" />
+                        </div>
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+
+                    <!-- Profile Photo (Optional) -->
+                    <div class="col-md-6">
+                        <label for="ProfilePhoto" class="form-label">Profile Photo (Optional)</label>
+                        <input type="file" asp-for="ProfilePhoto" class="form-control" accept="image/*" onchange="previewProfilePhoto()" />
+                        <span asp-validation-for="ProfilePhoto" class="text-danger"></span>
+                    </div>
+
+                    <!-- Profile Photo Preview -->
+                    <div class="col-md-6">
+                        <img id="profilePhotoPreview" src="#" alt="Profile Photo Preview" style="display: none; max-width: 200px; max-height: 200px;" />
+                    </div>
+                </div>
+
+                <div class="mt-4 text-center">
+                    <button type="button" class="btn btn-primary" onclick="nextPhase()">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Role Details -->
+            <div class="phase" id="phase2" style="display: none;">
+                <h4>Role Details</h4>
+                <div class="row g-4">
+                    <!-- Role -->
+                    <div class="col-md-6">
+                        <label asp-for="Role" class="form-label">Role</label>
+                        <select asp-for="Role" class="form-select">
+                            <option value="">-- Select Role --</option>
+                            <option value="Admin">System Admin</option>
+                            <option value="WardAdmin">Ward Admin</option>
+                            <option value="Doctor">Doctor</option>
+                            <option value="Nurse">Nurse</option>
+                            <option value="Patient">Patient</option>
+                        </select>
+                        <span asp-validation-for="Role" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="WardId" class="form-label">Ward No</label>
+                        <input asp-for="WardId" class="form-control" />
+                        <span asp-validation-for="WardId" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Status" class="form-label">Status</label>
+                        <select asp-for="Status" class="form-select">
+                            <option value="">-- Select Status --</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-center">
+                    <button type="button" class="btn btn-secondary" onclick="previousPhase()">Previous</button>
+                    <button type="button" class="btn btn-primary" onclick="nextPhase()">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Security Details -->
+            <div class="phase" id="phase3" style="display: none;">
+                <h4>Security Details</h4>
+                <div class="row g-4">
+                    <!-- Password -->
+                    <div class="col-md-6">
+                        <label asp-for="Password" class="form-label">Password</label>
+                        <input asp-for="Password" type="password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="col-md-6">
+                        <label for="ConfirmPassword" class="form-label">Confirm Password</label>
+                        <input type="password" id="ConfirmPassword" class="form-control" />
+                        <span class="text-danger" id="confirmPasswordError"></span>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-center">
+                    <button type="button" class="btn btn-secondary" onclick="previousPhase()">Previous</button>
+                    <button type="submit" class="btn btn-danger" disabled id="addBtn">Add</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var currentPhase = 1;
+
+        function nextPhase() {
+            if (validatePhase()) {
+                currentPhase++;
+                showPhase(currentPhase);
+            }
+        }
+
+        function previousPhase() {
+            currentPhase--;
+            showPhase(currentPhase);
+        }
+
+        function showPhase(phase) {
+            $('.phase').hide();
+            $('#phase' + phase).show();
+            validatePasswords(); // Check password on phase 3 load
+        }
+
+        function validatePhase() {
+            var valid = true;
+            if (currentPhase === 1) {
+                if ($('#Name').val() === '' || $('#Surname').val() === '' || $('#Email').val() === '' || $('#Phone').val() === '') {
+                    valid = false;
+                    alert('Please fill in all required fields.');
+                }
+            } else if (currentPhase === 2) {
+                if ($('#Role').val() === '' || $('#Status').val() === '') {
+                    valid = false;
+                    alert('Please select a role and status.');
+                }
+            }
+            return valid;
+        }
+
+        function validatePasswords() {
+            var password = $('#Password').val();
+            var confirmPassword = $('#ConfirmPassword').val();
+            if (password && confirmPassword && password !== confirmPassword) {
+                $('#confirmPasswordError').text("Passwords do not match.");
+                $('#addBtn').attr('disabled', true);
+            } else {
+                $('#confirmPasswordError').text("");
+                $('#addBtn').attr('disabled', false);
+            }
+        }
+
+        function previewProfilePhoto() {
+            var file = document.getElementById('ProfilePhoto').files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('profilePhotoPreview').src = e.target.result;
+                    document.getElementById('profilePhotoPreview').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        $(document).ready(function () {
+            $('#ConfirmPassword').on('input', validatePasswords);
+            showPhase(currentPhase);
+        });
+    </script>
+}
+

@@ -1,0 +1,128 @@
+﻿@model AssignRoomAndBedViewModel
+
+@{
+    Layout = "~/Views/Shared/_WardAdminLayout.cshtml";
+    ViewData["Title"] = "Assign Room and Bed";
+}
+
+<div class="container-fluid">
+    <h2>Assign Room and Bed</h2>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            <ul>
+                @foreach (var modelState in ViewData.ModelState.Values)
+                {
+                    foreach (var error in modelState.Errors)
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                }
+            </ul>
+        </div>
+    }
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <div class="card shadow-lg mb-4">
+        <div class="card-body">
+            <form asp-action="SearchPatientward" method="post">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="patientIdInput" class="form-label">Enter Patient ID</label>
+                        <div class="input-group">
+                            <input type="number" id="patientIdInput" name="userId" class="form-control" required />
+                            <button type="submit" class="btn btn-secondary">Search Patient</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <form asp-action="AssignRoomAndBed" method="post">
+        <input asp-for="Request.UserId" type="hidden" />
+    <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="card shadow-lg">
+            <div class="card-body">
+                <input asp-for="Request.WardId" type="hidden" />
+                
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="Request.PatientName" class="form-label">Patient Name</label>
+                        <input asp-for="Request.PatientName" class="form-control" readonly />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="Request.PatientSurname" class="form-label">Patient Surname</label>
+                        <input asp-for="Request.PatientSurname" class="form-control" readonly />
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="Request.WardId" class="form-label">Ward</label>
+                        <input asp-for="Request.WardId" class="form-control" readonly />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="Request.WardName" class="form-label">Ward Name</label>
+                        <input asp-for="Request.WardName" class="form-control" readonly />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="Request.AdmissionDate" class="form-label">Admission Date</label>
+                        <input asp-for="Request.AdmissionDate" class="form-control" type="date" />
+                        <span asp-validation-for="Request.AdmissionDate" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="Request.RoomNumber" class="form-label">Room Number</label>
+                        <select asp-for="Request.RoomNumber" class="form-control" onchange="this.form.submit()">
+                            <option value="">-- Select Room --</option>
+                            @foreach (var room in Model.Rooms)
+                            {
+                                <option value="@room.RoomId">@room.RoomNumber</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Request.RoomNumber" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="Request.BedId" class="form-label">Bed</label>
+                        <select asp-for="Request.BedId" class="form-control">
+                            <option value="">-- Select Bed --</option>
+                            @if (Model.Beds != null && Model.Beds.Any())
+                            {
+                                @foreach (var bed in Model.Beds)
+                                {
+                                    <option value="@bed.BedId">
+                                        Bed @bed.BedId - @(bed.IsOccupied ? "Occupied" : "Available")
+                                    </option>
+                                }
+
+
+                            }
+                        </select>
+                        <span asp-validation-for="Request.BedId" class="text-danger"></span>
+                    </div>
+
+
+                </div>
+
+                <div class="d-flex justify-content-end mt-3">
+                    <button type="submit" class="btn btn-primary btn-lg">Assign Room & Bed</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.2/jquery.validate.min.js" asp-append-version="true"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/mvc/5.2.3/jquery.validate.unobtrusive.min.js"></script>

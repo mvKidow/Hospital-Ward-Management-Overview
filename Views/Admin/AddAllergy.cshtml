@@ -1,0 +1,47 @@
+﻿@model CareConnect.Models.Allergy
+@{
+    ViewData["Title"] = "Add New Allergy";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@if (TempData["SuccessMessage"] != null)
+{
+        <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+        </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+        <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+        </div>
+}
+<div class="container" style="padding: 20px; border-radius: 5px;">
+    <h4 style="text-align: center ">Add New Allergy</h4>
+      <div class="row">
+        <ul class="nav nav-tabs mb-3">
+            <li class="nav-item">
+                <a class="nav-link" asp-action="ViewAllergies">List</a>
+            </li>
+        </ul>
+    </div>
+    <form id="allergyForm" asp-action="AddAllergy" method="post">
+        <div class="form-group">
+            <label asp-for="Name">Allergy Name</label>
+            <input asp-for="Name" class="form-control" required />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Severity">Severity</label>
+            <input asp-for="Severity" class="form-control" required />
+            <span asp-validation-for="Severity" class="text-danger"></span>
+        </div>
+        <div class="form-group text-center" style="margin-top: 20px;">
+            <button type="submit" class="btn btn-primary" style="color: white;">Add Allergy</button>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,71 @@
+﻿@model IEnumerable<AllergyViewModel>
+@{
+    ViewData["Title"] = "All Allergies";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@if (TempData["SuccessMessage"] != null)
+{
+        <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+        </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+        <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+        </div>
+}
+<div class="container my-4">
+    <h3 class="text-center mb-4">Allergy List</h3>
+     
+    <div class="d-flex justify-content-between mb-3">
+        <a asp-action="AddAllergy" class="btn btn-success">Add New Allergy</a>
+        <form method="get" asp-action="AllergyList">
+            <div class="input-group">
+                <input type="text" class="form-control" id="searchTerm" name="getAllergy" placeholder="Search by name..." />
+                <button class="btn btn-outline-secondary" type="submit">
+                    <i class="bi bi-search"></i> Search
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="card p-3">
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Severity</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Severity</td>
+                            <td>
+                            <a asp-action="EditAllergy" asp-controller="Admin" asp-route-id="@item.AllergyId" class="btn btn-primary btn-sm">Edit</a>
+                                <form asp-action="DeleteAllergy" asp-route-id="@item.AllergyId" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this allergy?');">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                }
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-between">
+            <small>Page @ViewBag.Page of @ViewBag.TotalPages (@ViewBag.TotalItems items)</small>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination pagination-sm mb-0">
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                            <li class="page-item @(i == ViewBag.Page ? "active" : "")">
+                                <a class="page-link" asp-action="AllergyList" asp-route-page="@i" asp-route-getAllergy="@Context.Request.Query["getAllergy"]">@i</a>
+                            </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

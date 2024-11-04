@@ -1,0 +1,45 @@
+﻿@model CareConnect.Models.Consumable
+@{
+    ViewData["Title"] = "Add New Consumable";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-5 mx-auto" style="max-width: 800px;">
+    <h3>Add New Consumable</h3>
+
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+            <a class="nav-link" asp-action="ViewAllConsumables">View Consumables</a>
+        </li>
+    </ul>
+
+    <form asp-action="AddNewConsumable" method="post">
+        <div class="form-group">
+            <label asp-for="Name">Name</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Type">Type</label>
+            <input asp-for="Type" class="form-control" />
+            <span asp-validation-for="Type" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="QuantityAvailable">Quantity Available</label>
+            <input asp-for="QuantityAvailable" class="form-control" type="number" />
+            <span asp-validation-for="QuantityAvailable" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="SupplierId">Supplier</label>
+            <select asp-for="SupplierId" class="form-control" asp-items="ViewBag.Suppliers"></select>
+            <span asp-validation-for="SupplierId" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Consumable</button>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

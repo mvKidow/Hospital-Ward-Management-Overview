@@ -1,0 +1,99 @@
+﻿@model AppointmentViewModel
+@{
+    Layout = "~/Views/Shared/_DoctorLayout.cshtml";
+    ViewData["Title"] = "Assign Schedule";
+}
+
+<div class="container-fluid">
+    <h2>Assign Schedule</h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            <ul>
+                @foreach (var modelState in ViewData.ModelState.Values)
+                {
+                    foreach (var error in modelState.Errors)
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                }
+            </ul>
+        </div>
+    }
+
+    <div class="card shadow-lg mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Search Patient Appointment</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="SearchPatientFileAppointment" method="post">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="PatientFileId" class="form-label">Enter Patient File ID</label>
+                        <div class="input-group">
+                            <input type="number" asp-for="@Model.PatientFileId" id="PatientFileId" name="PatientFileId" class="form-control" required />
+                            <button type="submit" class="btn btn-secondary">Search Patient</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <form asp-action="ScheduleAssign" method="post">
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Patient Details</h5>
+            </div>
+
+            <div class="card-body">
+                <div class="form-group">
+                    <labe for="Name">Patient Name</labe>
+                    <input type="text" asp-for="Name" class="form-control" readonly />
+                    <input type="hidden" asp-for="PatientFileId" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="Date">Date</label>
+                    <input type="date" asp-for="Date" class="form-control" />
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <labe for="Time">Time</labe>
+                    <input type="time" asp-for="Time" class="form-control" />
+                    <span asp-validation-for="Time" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <labe for="Reason">Reason</labe>
+                    <input type="text" asp-for="Reason" class="form-control" />
+                    <span asp-validation-for="Reason" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="Status">Status<span class="text-danger">*</span></label>
+                    <select asp-for="Status" class="form-control" asp-items="ViewBag.Status" required>
+                        <option value="">-- Select Status --</option>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </select>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary btn-lg">Save Appointment</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

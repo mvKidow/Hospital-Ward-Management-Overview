@@ -1,0 +1,16 @@
+﻿@* @model CreateInstructionViewModel   *@
+@* It's not showing the instruction model *@
+@model CareConnect.Models.Instrustion
+@{
+    ViewData["Title"] = "Details Instruction";
+    Layout = "~/Views/Shared/_DoctorLayout.cshtml";
+}
+<h2>Instruction Details</h2>
+
+<div>
+    <h3>Date: @Model.Date.ToString("MM/dd/yyyy")</h3>
+    <p>Details: @Model.Details</p>
+</div>
+
+<a href="@Url.Action("Instructions")" class="btn btn-secondary">Back to List</a>
+
