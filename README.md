@@ -21,20 +21,15 @@
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#features">Features</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+
   </ol>
 </details>
 
-<!-- ABOUT THE PROJECT -->
 ## About The Project
 
 The Hospital Ward Management System is a web-based application designed to streamline and automate the management of hospital wards. This system helps medical staff and administrators efficiently manage patient admissions, bed allocations, staff assignments, and medical records.
@@ -47,7 +42,7 @@ Key Features:
 * Dashboard for quick overview of ward status
 * Reporting and analytics capabilities
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 ### Built With
 
@@ -60,7 +55,7 @@ Key Features:
 * [![CSS3][CSS3]][CSS3-url]
 * [![JavaScript][JavaScript]][JavaScript-url]
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -115,7 +110,7 @@ The system provides different interfaces for various user roles:
    - Track patient assignments
    - Record patient vital signs
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 <!-- FEATURES -->
 ## Features
@@ -132,7 +127,7 @@ The system provides different interfaces for various user roles:
 - [ ] Mobile Application
 - [ ] Real-time Notifications
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 <!-- ROADMAP -->
 ## Roadmap
@@ -140,14 +135,12 @@ The system provides different interfaces for various user roles:
 - [ ] Add Appointment Scheduling
 - [ ] Implement Inventory Management
 - [ ] Develop API Integration
-- [ ] Add Multi-language Support
-    - [ ] Spanish
-    - [ ] French
+
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
@@ -158,7 +151,6 @@ The system provides different interfaces for various user roles:
 * [Choose an Open Source License](https://choosealicense.com)
 * [Img Shields](https://shields.io)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [contributors-shield]: https://img.shields.io/github/contributors/your_username/hospital-ward-management.svg?style=for-the-badge
