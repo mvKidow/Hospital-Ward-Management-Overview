@@ -84,27 +84,6 @@ To get a local copy up and running, follow these steps:
   npm install npm@latest -g
   ```
 
-### Installation
-
-1. Clone the repository
-   ```sh
-   git clone https://github.com/your_username/hospital-ward-management.git
-   ```
-2. Open the solution in Visual Studio 2022
-
-3. Update the connection string in `appsettings.json`
-   ```json
-   "ConnectionStrings": {
-     "DefaultConnection": "Server=YOUR_SERVER;Database=HospitalWardDB;Trusted_Connection=True;MultipleActiveResultSets=true"
-   }
-   ```
-4. Open Package Manager Console and run migrations
-   ```sh
-   Update-Database
-   ```
-5. Build and run the application
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- USAGE -->
 ## Usage
@@ -131,8 +110,6 @@ The system provides different interfaces for various user roles:
    - Monitor bed availability
    - Track patient assignments
    - Record patient vital signs
-
-_For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -165,9 +142,6 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-Project Link: [https://github.com/your_username/hospital-ward-management](https://github.com/your_username/hospital-ward-management)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
