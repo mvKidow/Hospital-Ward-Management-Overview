@@ -67,10 +67,6 @@ To get a local copy up and running, follow these steps:
 * Visual Studio 2022 (Community Edition or higher)
 * SQL Server Management Studio (SSMS)
 * .NET 6.0 SDK or later
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
 
 
 <!-- USAGE -->
@@ -148,7 +144,6 @@ The system provides different interfaces for various user roles:
 * [ASP.NET Core Documentation](https://docs.microsoft.com/en-us/aspnet/core)
 * [Bootstrap Documentation](https://getbootstrap.com/docs)
 * [SQL Server Documentation](https://docs.microsoft.com/en-us/sql)
-* [Choose an Open Source License](https://choosealicense.com)
 * [Img Shields](https://shields.io)
 
 
@@ -163,8 +158,7 @@ The system provides different interfaces for various user roles:
 [issues-url]: https://github.com/your_username/hospital-ward-management/issues
 [license-shield]: https://img.shields.io/github/license/your_username/hospital-ward-management.svg?style=for-the-badge
 [license-url]: https://github.com/your_username/hospital-ward-management/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/your_username
+
 
 [ASP.NET Core]: https://img.shields.io/badge/ASP.NET%20Core-5C2D91?style=for-the-badge&logo=.net&logoColor=white
 [AspNetCore-url]: https://dotnet.microsoft.com/apps/aspnet
